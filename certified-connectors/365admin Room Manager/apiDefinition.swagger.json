@@ -1,0 +1,898 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "365admin Room Manager",
+    "description": "Room Manager is a cross service wrapper for supporting administrators of Microsoft 365 in managing rooms and devices",
+    "version": "1.0",
+    "contact": {
+      "name": "jumpto365, Inc",
+      "url": "https://www.jumpto365.com",
+      "email": "support@jumpto365.com"
+    }
+  },
+  "host": "api.365admin.net",
+  "basePath": "/v1.0/room-manager",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.jumpto365.com"
+    },
+    {
+      "propertyName": "Privacy policy",
+      "propertyValue": "https://www.jumpto365.com/legal/privacy-policy"
+    },
+    {
+      "propertyName": "Categories",
+      "propertyValue": "IT Operations;Productivity"
+    }
+  ],
+  "paths": {
+    "/rooms": {
+      "get": {
+        "operationId": "GetRooms",
+        "summary": "Get Rooms names and addresses",
+        "tags": [
+          "Rooms"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/GetRooms_Response"
+            }
+          }
+        },
+        "description": "Get Rooms names and addresses"
+      },
+      "post": {
+        "operationId": "AddRoom",
+        "summary": "Create a Room",
+        "tags": [
+          "Rooms"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "displayName",
+                "mailNickname"
+              ],
+              "properties": {
+                "displayName": {
+                  "$ref": "#/definitions/DisplayName"
+                },
+                "bookingWindow": {
+                  "x-ms-summary": "Booking Window",
+                  "type": "integer",
+                  "description": "The number of days in advance this room can be booked, default 180"
+                },
+                "mailNickname": {
+                  "x-ms-summary": "Mail Nickname",
+                  "type": "string",
+                  "description": "Mail nickname of the new Room."
+                },
+                "owners": {
+                  "description": "Owners of the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Owners"
+                },
+                "allowedUsers": {
+                  "description": "Users allowed to book the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Allowed Users"
+                },
+                "capacity": {
+                  "description": "Capacity of the resource",
+                  "type": "integer",
+                  "x-ms-summary": "Capacity"
+                }
+              },
+              "x-ms-test-value": {
+                "description": "A Room",
+                "displayName": "Board Room",
+                "capacity": 18,
+                "mailNickname": "room-board"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Room"
+            }
+          }
+        },
+        "description": "Create a new room"
+      }
+    },
+    "/rooms/{mail}": {
+      "get": {
+        "operationId": "GetRoom",
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          }
+        ],
+        "summary": "Get Room details",
+        "tags": [
+          "Rooms"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Room"
+            }
+          }
+        },
+        "description": "Get details of a room."
+      },
+      "patch": {
+        "operationId": "PatchRoom",
+        "summary": "Update a Room",
+        "tags": [
+          "Rooms"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "displayName",
+                "mailNickname"
+              ],
+              "properties": {
+                "displayName": {
+                  "$ref": "#/definitions/DisplayName"
+                },
+                "bookingWindow": {
+                  "x-ms-summary": "Booking Window",
+                  "type": "integer",
+                  "description": "The number of days in advance this room can be booked, default 180"
+                },
+                "mailNickname": {
+                  "x-ms-summary": "Mail Nickname",
+                  "type": "string",
+                  "description": "Mail nickname of the new Room."
+                },
+                "owners": {
+                  "description": "Owners of the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Owners"
+                },
+                "allowedUsers": {
+                  "description": "Users allowed to book the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Allowed Users"
+                },
+                "capacity": {
+                  "description": "Capacity of the resource",
+                  "type": "integer",
+                  "x-ms-summary": "Capacity"
+                }
+              },
+              "x-ms-test-value": {
+                "description": "A Room",
+                "displayName": "Board Room",
+                "capacity": 18,
+                "mailNickname": "room-board"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Room"
+            }
+          }
+        },
+        "description": "Update a room"
+      },
+      "delete": {
+        "operationId": "DeleteRoom",
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          }
+        ],
+        "summary": "Delete a room",
+        "tags": [
+          "Rooms"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "description": "Delete a room."
+      }
+    },
+    "/policies/{id}": {
+      "get": {
+        "operationId": "GetPolicy",
+        "parameters": [
+          {
+            "$ref": "#/parameters/id__in_path"
+          }
+        ],
+        "summary": "Get Policy details",
+        "tags": [
+          "Policies"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        },
+        "description": "Get details of a policy"
+      },
+      "patch": {
+        "operationId": "PatchPolicy",
+        "summary": "Update a Policy",
+        "tags": [
+          "Policies"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/id__in_path"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "displayName"
+              ],
+              "properties": {
+                "displayName": {
+                  "$ref": "#/definitions/DisplayName"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Policy"
+            }
+          }
+        },
+        "description": "Update a policy"
+      },
+      "delete": {
+        "operationId": "DeletePolicy",
+        "parameters": [
+          {
+            "$ref": "#/parameters/id__in_path"
+          }
+        ],
+        "summary": "Delete a policy",
+        "tags": [
+          "Policies"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "description": "Delete a policy."
+      }
+    },
+    "/sites/{mail}": {
+      "get": {
+        "operationId": "GetRoom",
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          }
+        ],
+        "summary": "Get Room details",
+        "tags": [
+          "Sites"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Room"
+            }
+          }
+        },
+        "description": "Get details of a room."
+      },
+      "patch": {
+        "operationId": "PatchRoom",
+        "summary": "Update a Room",
+        "tags": [
+          "Sites"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "displayName",
+                "mailNickname"
+              ],
+              "properties": {
+                "displayName": {
+                  "$ref": "#/definitions/DisplayName"
+                },
+                "bookingWindow": {
+                  "x-ms-summary": "Booking Window",
+                  "type": "integer",
+                  "description": "The number of days in advance this room can be booked, default 180"
+                },
+                "mailNickname": {
+                  "x-ms-summary": "Mail Nickname",
+                  "type": "string",
+                  "description": "Mail nickname of the new Room."
+                },
+                "owners": {
+                  "description": "Owners of the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Owners"
+                },
+                "allowedUsers": {
+                  "description": "Users allowed to book the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Allowed Users"
+                },
+                "capacity": {
+                  "description": "Capacity of the resource",
+                  "type": "integer",
+                  "x-ms-summary": "Capacity"
+                }
+              },
+              "x-ms-test-value": {
+                "description": "A Room",
+                "displayName": "Board Room",
+                "capacity": 18,
+                "mailNickname": "room-board"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Room"
+            }
+          }
+        },
+        "description": "Update a room"
+      },
+      "delete": {
+        "operationId": "DeleteRoom",
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          }
+        ],
+        "summary": "Delete a room",
+        "tags": [
+          "Sites"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "description": "Delete a room."
+      }
+    },
+    "/buildings/{mail}": {
+      "get": {
+        "operationId": "GetRoom",
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          }
+        ],
+        "summary": "Get Room details",
+        "tags": [
+          "Buildings"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Room"
+            }
+          }
+        },
+        "description": "Get details of a room."
+      },
+      "patch": {
+        "operationId": "PatchRoom",
+        "summary": "Update a Room",
+        "tags": [
+          "Buildings"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "displayName",
+                "mailNickname"
+              ],
+              "properties": {
+                "displayName": {
+                  "x-ms-summary": "Display Name",
+                  "type": "string",
+                  "description": "Display name of the new Room."
+                },
+                "bookingWindow": {
+                  "x-ms-summary": "Booking Window",
+                  "type": "integer",
+                  "description": "The number of days in advance this room can be booked, default 180"
+                },
+                "mailNickname": {
+                  "x-ms-summary": "Mail Nickname",
+                  "type": "string",
+                  "description": "Mail nickname of the new Room."
+                },
+                "owners": {
+                  "description": "Owners of the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Owners"
+                },
+                "allowedUsers": {
+                  "description": "Users allowed to book the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Allowed Users"
+                },
+                "capacity": {
+                  "description": "Capacity of the resource",
+                  "type": "integer",
+                  "x-ms-summary": "Capacity"
+                }
+              },
+              "x-ms-test-value": {
+                "description": "A Room",
+                "displayName": "Board Room",
+                "capacity": 18,
+                "mailNickname": "room-board"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Room"
+            }
+          }
+        },
+        "description": "Update a room"
+      },
+      "delete": {
+        "operationId": "DeleteRoom",
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          }
+        ],
+        "summary": "Delete a room",
+        "tags": [
+          "Buildings"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "description": "Delete a room."
+      }
+    },
+    "/floors/{mail}": {
+      "get": {
+        "operationId": "GetRoom",
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          }
+        ],
+        "summary": "Get Room details",
+        "tags": [
+          "Floors"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Room"
+            }
+          }
+        },
+        "description": "Get details of a room."
+      },
+      "patch": {
+        "operationId": "PatchRoom",
+        "summary": "Update a Room",
+        "tags": [
+          "Floors"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "displayName",
+                "mailNickname"
+              ],
+              "properties": {
+                "displayName": {
+                  "$ref": "#/definitions/DisplayName"
+                },
+                "bookingWindow": {
+                  "x-ms-summary": "Booking Window",
+                  "type": "integer",
+                  "description": "The number of days in advance this room can be booked, default 180"
+                },
+                "mailNickname": {
+                  "x-ms-summary": "Mail Nickname",
+                  "type": "string",
+                  "description": "Mail nickname of the new Room."
+                },
+                "owners": {
+                  "description": "Owners of the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Owners"
+                },
+                "allowedUsers": {
+                  "description": "Users allowed to book the room",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "x-ms-summary": "Allowed Users"
+                },
+                "capacity": {
+                  "description": "Capacity of the resource",
+                  "type": "integer",
+                  "x-ms-summary": "Capacity"
+                }
+              },
+              "x-ms-test-value": {
+                "description": "A Room",
+                "displayName": "Board Room",
+                "capacity": 18,
+                "mailNickname": "room-board"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Room"
+            }
+          }
+        },
+        "description": "Update a room"
+      },
+      "delete": {
+        "operationId": "DeleteRoom",
+        "parameters": [
+          {
+            "$ref": "#/parameters/mail__in_path"
+          }
+        ],
+        "summary": "Delete a room",
+        "tags": [
+          "Floors"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "description": "Delete a room."
+      }
+    }
+  },
+  "definitions": {
+    "Floor": {
+      "type": "object",
+      "properties": {
+        "floorID": {
+          "$ref": "#/definitions/GenericID"
+        },
+        "displayName": {
+          "$ref": "#/definitions/DisplayName"
+        },
+        "rooms": {
+          "type": "array",
+          "description": "Summary of rooms on this floor",
+          "title": "Rooms",
+          "items": {
+            "$ref": "#/definitions/RoomSummary"
+          }
+        }
+      }
+    },
+    "Room": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string",
+          "description": "This is the primary email of the room",
+          "title": "Email",
+          "x-ms-visibility": "important"
+        },
+        "displayName": {
+          "$ref": "#/definitions/DisplayName"
+        },
+        "capacity": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The capacity of the room"
+        },
+        "bookingWindow": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of days in advance this room can be booked, default 180"
+        }
+      }
+    },
+    "Site": {
+      "type": "object",
+      "properties": {
+        "siteID": {
+          "$ref": "#/definitions/GenericID"
+        },
+        "displayName": {
+          "$ref": "#/definitions/DisplayName"
+        },
+        "buildings": {
+          "type": "array",
+          "description": "Summary of building in this site",
+          "title": "Buildings",
+          "items": {
+            "$ref": "#/definitions/BuildingSummary"
+          }
+        }
+      }
+    },
+    "Policy": {
+      "type": "object",
+      "properties": {
+        "policyID": {
+          "$ref": "#/definitions/GenericID"
+        },
+        "displayName": {
+          "$ref": "#/definitions/DisplayName"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the policy"
+        },
+        "bookingWindow": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of days in advance this room can be booked, default 180"
+        }
+      }
+    },
+    "GenericID": {
+      "type": "string",
+      "description": "This is the primary id of the item",
+      "title": "ID",
+      "x-ms-visibility": "important"
+    },
+
+    "DisplayName": {
+      "type": "string",
+      "description": "This is the display name of the item",
+      "title": "Display Name",
+      "x-ms-visibility": "important"
+    },
+    "PolicySummary": {
+      "type": "object",
+      "properties": {
+        "policyID": {
+          "$ref": "#/definitions/GenericID"
+        },
+        "displayName": {
+          "$ref": "#/definitions/DisplayName"
+        }
+      }
+    },
+    "SiteSummary": {
+      "type": "object",
+      "properties": {
+        "siteID": {
+          "$ref": "#/definitions/GenericID"
+        },
+        "displayName": {
+          "$ref": "#/definitions/DisplayName"
+        }
+      }
+    },
+    "BuildingSummary": {
+      "type": "object",
+      "properties": {
+        "buildingID": {
+          "$ref": "#/definitions/GenericID"
+        },
+        "displayName": {
+          "$ref": "#/definitions/DisplayName"
+        }
+      }
+    },
+    "FloorSummary": {
+      "type": "object",
+      "properties": {
+        "floorID": {
+          "$ref": "#/definitions/GenericID"
+        },
+        "displayName": {
+          "$ref": "#/definitions/DisplayName"
+        }
+      }
+    },
+    "RoomSummary": {
+      "type": "object",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "description": "This is the primary email of the room",
+          "title": "Email",
+          "x-ms-visibility": "important"
+        },
+        "displayName": {
+          "$ref": "#/definitions/DisplayName"
+        },
+        "capacity": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The capacity of the room"
+        },
+        "bookingWindow": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of days in advance this room can be booked, default 180"
+        }
+      }
+    },
+    "GetRooms_Response": {
+      "type": "object",
+      "properties": {
+
+        "value": {
+          "description": "List Rooos",
+          "type": "array",
+          "items": {
+                "$ref": "#/definitions/RoomSummary"
+          },
+          "x-ms-summary": "List of Rooms"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Error code",
+          "title": "Code"
+        },
+        "message": {
+          "type": "string",
+          "description": "Error message",
+          "title": "Message"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "mail__in_path": {
+      "name": "mail",
+      "in": "path",
+      "description": "Unique identifier of a resource (Ex. 'roomxx@domain.com",
+      "required": true,
+      "x-ms-summary": "mail",
+      "x-ms-test-value": "40649f36-46b6-43a6-95e2-9554b7933919",
+      "type": "string"
+    },
+    "id__in_path": {
+      "name": "id",
+      "in": "path",
+      "description": "Unique identifier ",
+      "required": true,
+      "x-ms-summary": "id",
+      "x-ms-test-value": "40649f36-46b6-43a6-95e2-9554b7933919",
+      "type": "string"
+    }
+  },
+  "securityDefinitions": {
+    "API Key": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "RESTAPIKey"
+    }
+  },
+  "security": [
+    {
+      "API Key": []
+    }
+  ],
+  "tags": []
+}
